@@ -71,7 +71,7 @@ all() -> [
                              photo= "/static/people/dima-gavrysh/image.jpg" }},
 
 
-   {{"dima-gavrysh",ua}, #user{id="dima-gavrysh",name= <<"Діма Гавриш"/utf8>>,
+   {{"dima-gavrysh",ru}, #user{id="dima-gavrysh",name= <<"Діма Гавриш"/utf8>>,
                              city = <<"ZH">>,profession =
         <<"Дима Гавриш - украино-американский интердисциплинарный "
         "художник, который на протяжении последних шести лет "

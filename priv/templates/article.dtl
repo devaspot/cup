@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/app/css/uu.css" />
 </head>
 <body>
-<div class=menu> <a href="index.html">articles</a> </div>
+<div class=menu> <a href="/index">articles</a> </div>
 <hr>
 <div class=app>
                                         <div align=right>FROM: {{from}}<br>

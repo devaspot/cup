@@ -3,20 +3,22 @@
 -include_lib("n2o/include/wf.hrl").
 -include("uu.hrl").
 
+lang() -> string:to_lower(wf:to_list([wf:lang()])).
 main() -> #dtl{file=index,app=uu,bindings=[{news,fetch(news)},
                                            {body,body()},
                                            {interviews,fetch(interviews)}]}.
 
 body() ->
    {_,#user{name=FullName,city=City,profession=Profession,photo=Photo}} =
-                        uu_people:lookup({"dima-gavrysh",en}),
+                        uu_people:lookup({"dima-gavrysh",wf:to_atom([lang()])}),
    [ #image{src=Photo},#h2{body=FullName},#panel{body=Profession} ].
 
 
 fetch(Name) ->
+    Lang = lang(),
     List = lists:flatten([ begin
        case string:tokens(F,".") of
-         [D,A,L,"txt"] -> update_file([D,A,L]);
+         [D,A,L,"txt"] when L == Lang -> update_file([D,A,L]);
                     _  -> [] end
     end || F <- filelib:wildcard(lists:concat(["priv/static/",Name,"/*.txt"])) ]).
 
