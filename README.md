@@ -35,6 +35,8 @@ Start
    make console
 ```
 
+And open it in browser [http://localhost:8820](http://localhost:8820)
+
 Credits
 -------
 
