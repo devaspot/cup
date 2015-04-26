@@ -10,7 +10,7 @@
 <div class=menu><a href="/index">index</a> <a href="/articles">articles</a></div>
 <hr>
 <div class=app>
-                   <center><h1>United Ukraine</h1>
+                   <center><h1>Ukraine United</h1>
                            <h5>landing page</h5></center>
 
                            {{body}}
