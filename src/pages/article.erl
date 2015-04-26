@@ -10,6 +10,7 @@ main() ->
    generate(Author,Date,wf:atom([Language])).
 
 generate(Author,Date,Language) ->
+   %io:format("Article Generate: ~p~n",[{Author,Date,Language}]),
    [Name,Surname] = string:tokens(Author,"-"),
    {_,#user{name=FullName,city=City,profession=Profession,photo=Photo}} = uu_people:lookup({Author,Language}),
    {ok,Body} = file:read_file(lists:concat(["priv/static/interviews/",Date,".",Author,".",Language,".txt"])),

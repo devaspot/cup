@@ -9,6 +9,7 @@ active(File) ->
     Last   = lists:last(File),
     Tokens = string:tokens(Last,"."),
     case {Last,lists:last(Tokens)} of
+         {".#"++_,_} -> ok;
          {_,"txt"} when length(Tokens) == 4 ->
                    [D,A,L]=Tokens--["txt"],
                    index:update_file([string:join((File--[Last])++[D],"/"),A,L]),
@@ -19,7 +20,7 @@ active(File) ->
                    wf:info(?MODULE,"Active Timeline: ~p~n",[FileName]),
                    active:otp(File);
          {_,_} ->  wf:info(?MODULE,"Active Ignore: ~p~n",[File]),
-                   ok end.
+                   active:otp(File) end.
 
 online()       -> ets:select(gproc,fun2ms_all()).
 online_count() -> ets:select_count(gproc,fun2ms_count()).
