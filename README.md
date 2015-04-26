@@ -1,26 +1,14 @@
 Ukraine United
 ==============
 
-Media in Ukraine and especially in Russia is often purposefully
-inflammatory and divisive. Public does not trust it, yet readily
-consumes the programming where people with opposing political
-opinion get demonized and stigmatized. In-depth analysis in
-English is rare and often incomplete. Overall, as the conflict
-is escalating and the emotions are running high, people are
-rapidly losing the ability to listen to each other.
+Features
+--------
 
-Ukraine United has no precedent in the mainstream media,
-as it shows contemporary Ukraine from a unique perspective.
-It consists of interviews of people from every region of Ukraine,
-and from different social, religious, and political statuses.
-They speak about the Maidan revolution, the annexation of Crimea,
-the war in the Eastern Ukraine, and the possible resolution of this crisis.
-
-Ukraine United is a platform where people can read each other's
-opinion and realize that they can disagree but still find common
-ground. We want everyone to use their own judgement about the
-situation in Ukraine instead of consuming unprofessional reporting
-and blunt propaganda.
+* N2O DTL/SPA Application
+* Static HTML Generation
+* Static JSON Generation with REST transformation
+* Active Reloading
+* Built-in Web Server
 
 Prerequisites
 -------------
@@ -37,11 +25,67 @@ Start
 
 And open it in browser [http://localhost:8820](http://localhost:8820)
 
+Usage
+-----
+
+From Erlang:
+
+```erlang
+> interview:get("2014-12.oleg-gubar.en").
+#interview{id = "2014-12.oleg-gubar.en",date = "2014-12",
+           title = undefined,
+           text = <<"Oleg Gubar\nOdessa\nHistorian of the City of Odessa\n\nIn general, I don’t concern myself with polit"/utf8...>>,
+           author = "oleg-gubar"}
+
+> uu:ls().
+[{"2014-07","andrey-volokita","en"},
+ {"2014-07","arina-koltsova","en"},
+ {"2014-12","oleg-gubar","en"}]
+
+> uu:time().
+[{"2013-11-21",<<"Mustafa Nayem issued a call to">>},
+ {"2013-11-22",<<"The number of people increases">>},
+ {"2013-11-23",<<"To install the city New Year t">>},
+ {"2013-11-24",<<"The tent camp is installed at ">>},
+ {"2013-11-25",<<"The tent camp continues to exi">>},
+ {"2013-11-26",<<"The association of two “maid"/utf8>>},
+ {"2014-1-19",<<"About 100 – 500 of demon"/utf8...>>},
+ {"2014-1-20",<<"The opposition on Hr"...>>},
+ {"2014-1-22",<<"The activists Se"...>>},
+ {"2014-1-10",<<"Prime Minist"...>>},
+ {"2014-2-12",<<"Yanukovy"...>>},
+ {"2014-2-17",<<"“Rig"/utf8...>>},
+ {"2014-2-18",<<...>>},
+ {[...],...},
+ {...}|...]
+
+> interview:get().
+[#interview{id = "2014-07.andrey-volokita.en",
+            date = "2014-07",title = undefined,
+            text = <<"Andrey Volokita\nKharkiv\nEnterpreneur\n\nThe views of Kharkovites [citizens of Kharkov, a city "...>>,
+            author = "andrey-volokita"},
+ #interview{id = "2014-07.arina-koltsova.en",
+            date = "2014-07",title = undefined,
+            text = <<"Arina Koltsova\nKiev\nHead of the “Samooborona” of Solomyansky district of Kiev\n\nI arrived"/utf8...>>,
+            author = "arina-koltsova"},
+ #interview{id = "2014-12.oleg-gubar.en",date = "2014-12",
+            title = undefined,
+            text = <<"Oleg Gubar\nOdessa\nHistorian of the City of Odessa\n\nIn general, I don’t concern mysel"/utf8...>>,
+            author = "oleg-gubar"}]
+```
+
+From REST clients:
+
+```sh
+$ curl -I -X GET http://localhost:8820/json/en/2014-07.andrey-volokita.json
+$ curl -I -X GET http://localhost:8820/rest/interview/2014-12.oleg-gubar.en
+$ curl -I -X GET http://localhost:8820/static/interviews/2014-12.oleg-gubar.en.txt
+$ curl -I -X GET http://localhost:8820/static/timeline/2013-11/21-en.txt
+```
+
 Credits
 -------
 
 * Dima Gavrysh
 * Yurii Artyukh
 * Maxim Sokhatsky
-
-

@@ -14,6 +14,7 @@
 <div class=app>
                                         <div align=right>FROM: {{from}}<br>
                                                    PROFESSION: {{to}}<br>
+                                                         JSON: {{json}}<br>
                                                          DATE: {{date}}</div>
                                    {{image}}
      {{body}}

@@ -1,1 +1,1 @@
-[kernel,stdlib,fs,crypto,compiler,syntax_tools,mnesia,ranch,gproc,cowlib,erlydtl,active,cowboy,n2o,markdown,kvs,mad,sh,uu]
+[kernel,stdlib,fs,crypto,compiler,syntax_tools,mnesia,ranch,gproc,cowlib,erlydtl,active,cowboy,n2o,markdown,kvs,mad,rest,sh,uu]

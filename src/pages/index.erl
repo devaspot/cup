@@ -4,33 +4,48 @@
 -include("uu.hrl").
 
 lang() -> string:to_lower(wf:to_list([wf:lang()])).
-main() -> #dtl{file=index,app=uu,bindings=[{news,fetch(news)},
-                                           {body,body()},
-                                           {interviews,fetch(interviews)}]}.
+main() -> #dtl{file=index,
+               app=uu,
+               bindings=[{news,fetch(news,lang(),fun update_file/1)},
+                         {body,body()},
+                         {interviews,fetch(interviews,lang(),fun update_file/1)}]}.
 
-body() ->
-   {_,#user{name=FullName,city=City,profession=Profession,photo=Photo}} =
-                        uu_people:lookup({"dima-gavrysh",wf:to_atom([lang()])}),
-   [ #image{src=Photo},#h2{body=FullName},#panel{body=Profession} ].
+body() -> {_,#user{name=FullName,city=City,profession=Profession,photo=Photo}}
+          = uu_people:lookup({"dima-gavrysh",wf:to_atom([lang()])}),
+        [ #image{src=Photo},#h2{body=FullName},#panel{body=Profession} ].
 
-
-fetch(Name) ->
-    Lang = lang(),
+fetch(Name, Lang, UpdateFile) ->
     List = lists:flatten([ begin
        case string:tokens(F,".") of
-         [D,A,L,"txt"] when L == Lang -> update_file([D,A,L]);
-                    _  -> [] end
-    end || F <- filelib:wildcard(lists:concat(["priv/static/",Name,"/*.txt"])) ]).
+         [D,A,L,"txt"] when L == Lang -> UpdateFile([D,A,L]);
+                    _  -> [] end end
+     || F <- filelib:wildcard(lists:concat(["priv/static/",Name,"/*.txt"])) ]).
 
 update_file([D,A,L]) ->
-    X=string:tokens(D,"/"),
     Language = wf:atom([L]),
-    File = lists:concat([string:join(tl(X),"/"),".",A,".",L,".htm"]),
-    Article = article:generate(A,lists:last(X),Language),
+    X=string:tokens(D,"/"),
+    Date = lists:last(X),
+
+    JSON = lists:concat(["json/",L,"/",Date,".",A,".json"]),
+    HTML = lists:concat(["static/interviews/",L,"/",Date,".",A,".htm"]),
+    Text = lists:concat(["static/interviews/",Date,".",A,".",L,".txt"]),
+
+    io:format("JSON: ~p~n",[JSON]),
+    io:format("HTML: ~p~n",[HTML]),
+    io:format("Text: ~p~n",[Text]),
+
+    {ok,Bin} = file:read_file(hd(X)++"/"++Text),
+    Article = article:generate(A,Date,Language),
     Render = wf:render(Article),
-    file:write_file(lists:concat([hd(X),"/",File]),Render),
-    io:format("HTM updated: ~p~n",[lists:concat([hd(X),"/",File])]),
-    article_link({lists:last(X),A,Language,File}).
+
+    file:write_file(lists:concat([hd(X),"/",HTML]),Render),
+    file:write_file(lists:concat([hd(X),"/",JSON]),
+         iolist_to_binary(
+         n2o_json:encode(
+         interview:to_json(#interview{id=string:join([Date,A,L],"."),date=Date,text=Bin,author=A})))),
+
+    io:format("HTM updated: ~p~n",[lists:concat([hd(X),"/",HTML])]),
+    article_link({lists:last(X),A,Language,HTML}).
 
 article_link({Date,Author,Language,File}) ->
     case uu_people:lookup({Author,Language}) of
@@ -40,8 +55,5 @@ article_link({Date,Author,Language,File}) ->
                            href=File}]);
          _ -> [] end.
 
-event(init) ->
-   wf:update(body, #label{body= <<"Україна"/utf8>>}  ),
-   wf:info(?MODULE,"Init",[]);
-
+event(init) -> wf:info(?MODULE,"Init",[]);
 event(_) -> ok.

@@ -1,10 +1,13 @@
 -module(uu).
 -export([active/1]).
+-include("uu.hrl").
 -compile(export_all).
+
+languages() -> [en,ua,ru].
 
 % Active File System Update
 
-active(["deps"|_]) -> ok;
+%active(["deps"|_]) -> ok;
 active(File) ->
     Last   = lists:last(File),
     Tokens = string:tokens(Last,"."),
@@ -22,15 +25,27 @@ active(File) ->
          {_,_} ->  wf:info(?MODULE,"Active Ignore: ~p~n",[File]),
                    active:otp(File) end.
 
-online()       -> ets:select(gproc,fun2ms_all()).
-online_count() -> ets:select_count(gproc,fun2ms_count()).
-fun2ms_all()   -> ets:fun2ms(fun({{{_,_,broadcast},_},D,E}) -> {D,E} end).
-fun2ms_count() -> ets:fun2ms(fun({{{_,_,broadcast},_},D,E}) -> true end).
+% ls - list interviews
+% timeline(ua) -- show timeline event in UA locale
 
-log_modules() -> [uu,uu_timeline,index,article,n2o_websocket].
+ls()       -> ls(en).
+time()     -> time(en).
+ls(Lang)   -> index:fetch(interviews,wf:to_list(Lang),fun([A,B,C]) -> {lists:last(string:tokens(A,"/")),B,C} end).
+time(Lang) ->
+  [{ lists:concat([Y,"-",M,"-",D]),
+     case unicode:characters_to_binary(
+          binary:part(Text,{0,erlang:min(size(Text),
+          case Lang of en -> 30; _ -> 55 end)})) of
+          {incomplete,B,_} -> B;
+                         E -> E end }
+  || {{{Y,M,D},L},Text} <- uu_timeline:all(), L == Lang ].
+
+log_modules() -> [uu,uu_timeline,index,article,interview,n2o_websocket].
 main(A) -> mad_repl:main(A,[]).
 main() -> [].
 event(_) -> ok.
 
-timeline(Lang) -> [ X || {{_,L},_}=X <- uu_timeline:all(), L == Lang ].
-
+online()       -> ets:select(gproc,fun2ms_all()).
+online_count() -> ets:select_count(gproc,fun2ms_count()).
+fun2ms_all()   -> ets:fun2ms(fun({{{_,_,broadcast},_},D,E}) -> {D,E} end).
+fun2ms_count() -> ets:fun2ms(fun({{{_,_,broadcast},_},D,E}) -> true end).
