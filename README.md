@@ -22,6 +22,18 @@ ground. We want everyone to use their own judgement about the
 situation in Ukraine instead of consuming unprofessional reporting
 and blunt propaganda.
 
+Prerequisites
+-------------
+
+* Erlang
+* make
+
+Start
+-----
+
+```sh
+   make console
+```
 
 Credits
 -------
