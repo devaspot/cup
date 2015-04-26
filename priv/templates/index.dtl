@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Articles</title>
+    <link rel="stylesheet" href="static/app/css/uu.css" />
+</head>
+<body>
+<div class=menu><a href="/index">index</a> <a href="/articles">articles</a></div>
+<hr>
+<div class=app>
+                   <center><h1>United Ukraine</h1>
+                           <h5>landing page</h5></center>
+
+                           {{body}}
+
+                 <div class=message>
+                          <h2>News</h2>       <blockquote> {{news}} </blockquote>
+                          <h2>Interviews</h2> <blockquote> {{interviews}} </blockquote></div>
+</div>
+</body>
+</html>

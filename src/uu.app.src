@@ -1,0 +1,7 @@
+{application, uu, [
+    {description, "N2O United Ukraine"},
+    {vsn, "1"},
+    {registered, []},
+    {applications, [kernel, stdlib, n2o, active]},
+    {mod, { uu_app, []}},
+    {env, []}]}.

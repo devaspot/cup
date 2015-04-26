@@ -1,0 +1,6 @@
+{
+      "name": "Олег Губар",
+      "city": "Житомир",
+      "profession": "Історик міста Житомир",
+      "photo": "/static/people/oleg.gubar/image.jpg"
+}
