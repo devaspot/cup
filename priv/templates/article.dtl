@@ -6,7 +6,7 @@
     <meta name="description" content="" />
     <meta name="author" content="Maxim Sokhatsky" />
     <title>{{title}}</title>
-    <link rel="stylesheet" href="static/app/css/uu.css" />
+    <link rel="stylesheet" href="/static/app/css/uu.css" />
 </head>
 <body>
 <div class=menu> <a href="index.html">articles</a> </div>

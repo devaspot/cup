@@ -16,6 +16,10 @@ all() -> [
                              city = <<"DP">>,profession = <<"Лидер украинской праворадикальной организации \"Правый Сектор\""/utf8>>,
                              photo= "/static/people/dmytro-yarosh/image.jpg" }},
 
+   {{"oleg-gubar",en}, #user{id="oleg-gubar",name= <<"Oleg Gubar"/utf8>>,
+                             city = <<"ZH">>,profession = <<"Historian of the City of Odessa"/utf8>>,
+                             photo= "/static/people/oleg-gubar/image.jpg" }},
+
    {{"oleg-gubar",ua}, #user{id="oleg-gubar",name= <<"Олег Губар"/utf8>>,
                              city = <<"ZH">>,profession = <<"Історик міста Одеса"/utf8>>,
                              photo= "/static/people/oleg-gubar/image.jpg" }},

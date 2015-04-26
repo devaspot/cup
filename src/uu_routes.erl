@@ -29,4 +29,4 @@ route(<<"static/app/i18n/",_,_,"/index.htm">>)     -> index;
 route(<<>>) -> index;
 route(<<"index">>) -> index;
 route(<<"article">>) -> article;
-route(_)    -> index.
+route(_)    -> static_file.

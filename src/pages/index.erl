@@ -15,17 +15,28 @@ body() ->
 
 fetch(Name) ->
     List = lists:flatten([ begin
-       case string:tokens(F,".") of [D,A,L,"txt"] -> X=string:tokens(D,"/"),
-                                                 article({lists:last(X),A,L});
-                                           _  -> [] end
-    end || F <- filelib:wildcard(lists:concat(["priv/static/",Name,"/*"])) ]).
+       case string:tokens(F,".") of
+         [D,A,L,"txt"] -> update_file([D,A,L]);
+                    _  -> [] end
+    end || F <- filelib:wildcard(lists:concat(["priv/static/",Name,"/*.txt"])) ]).
 
-article({Date,Author,Language}) ->
-    case uu_people:lookup({Author,wf:atom([Language])}) of
-    {_,#user{name=FullName}} ->
-    wf:render([#br{},#br{},#link{body= iolist_to_binary([Date," ",FullName," ",Language]),
-                    href=lists:concat(["/article?date=",Date,"&author=",Author,"&locale=",Language])}]);
-                    _ -> "" end.
+update_file([D,A,L]) ->
+    X=string:tokens(D,"/"),
+    Language = wf:atom([L]),
+    File = lists:concat([string:join(tl(X),"/"),".",A,".",L,".htm"]),
+    Article = article:generate(A,lists:last(X),Language),
+    Render = wf:render(Article),
+    file:write_file(lists:concat([hd(X),"/",File]),Render),
+    io:format("HTM updated: ~p~n",[lists:concat([hd(X),"/",File])]),
+    article_link({lists:last(X),A,Language,File}).
+
+article_link({Date,Author,Language,File}) ->
+    case uu_people:lookup({Author,Language}) of
+         {_,#user{name=FullName}} ->
+               wf:render([#br{},#br{},
+                     #link{body= iolist_to_binary([Date," ",FullName," ",wf:to_list(Language)]),
+                           href=File}]);
+         _ -> [] end.
 
 event(init) ->
    wf:update(body, #label{body= <<"Україна"/utf8>>}  ),
