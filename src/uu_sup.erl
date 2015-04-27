@@ -7,7 +7,7 @@ start_link() -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 cron(Key) -> {Key,{cron,start_link,[Key]},permanent,2000,worker,[cron]}.
 
 init([]) ->
-    wf:info(?MODULE,"~nN2O WebSocket Server~n",[]),
+    wf:info(?MODULE,"N2O WebSocket Server~n",[]),
 
     {ok, _} = cowboy:start_http(http, 100, [{port, wf:config(n2o,port)}],
                                            [{env, [{dispatch, dispatch_rules()}]}]),
@@ -15,11 +15,14 @@ init([]) ->
     kvs:join(),
 
     [ begin  filelib:ensure_dir(lists:concat(["priv/static/interviews/",Lang,"/"])),
-             filelib:ensure_dir(lists:concat(["priv/json/",Lang,"/"]))
+             filelib:ensure_dir(lists:concat(["priv/json/",Lang,"/"])),
+             index:fetch(interviews, Lang, fun index:update_file/1)
       end || Lang <- uu:languages() ],
 
     [ ets:insert(globals,X) || X <- uu_people:all() ],
     [ ets:insert(globals,X) || X <- uu_timeline:all() ],
+
+    uu_timeline:generate(),
 
     {ok, {{one_for_one, 5, 10}, []}}.
 
