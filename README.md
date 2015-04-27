@@ -79,6 +79,12 @@ From Erlang:
             title = undefined,
             text = <<"Oleg Gubar\nOdessa\nHistorian of the City of Odessa\n\nIn general, I don’t concern mysel"/utf8...>>,
             author = "oleg-gubar"}]
+
+4> length(uu_people:all()).
+15
+
+5> length(uu_timeline:all()).
+102
 ```
 
 From REST clients:
