@@ -39,7 +39,7 @@ time(Lang) ->
                          E -> E end }
   || {{{Y,M,D},L},Text} <- uu_timeline:all(), L == Lang ].
 
-log_modules() -> [uu,uu_timeline,index,article,interview,n2o_websocket].
+log_modules() -> [uu,uu_timeline,index,article,interview].
 main(A) -> mad_repl:main(A,[]).
 main() -> [].
 event(_) -> ok.

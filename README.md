@@ -87,13 +87,20 @@ From Erlang:
 102
 ```
 
-From REST clients:
+Static:
 
 ```sh
 $ curl -I -X GET http://localhost:8820/json/en/2014-07.andrey-volokita.json
-$ curl -I -X GET http://localhost:8820/rest/interview/2014-12.oleg-gubar.en
+$ curl -I -X GET http://localhost:8820/static/interviews/2014-12.oleg-gubar.en.htm
 $ curl -I -X GET http://localhost:8820/static/interviews/2014-12.oleg-gubar.en.txt
 $ curl -I -X GET http://localhost:8820/static/timeline/2013-11/21-en.txt
+```
+
+Dynamic:
+
+```sh
+$ curl -I -X GET http://localhost:8820/rest/interview/2014-12.oleg-gubar.en
+$ curl -I -X GET http://localhost:8820/article?date=2014-07&author=andrey-volokita&locale=ru
 ```
 
 Credits
