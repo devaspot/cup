@@ -91,7 +91,7 @@ Static:
 
 ```sh
 $ curl -I -X GET http://localhost:8820/json/en/2014-07.andrey-volokita.json
-$ curl -I -X GET http://localhost:8820/static/interviews/2014-12.oleg-gubar.en.htm
+$ curl -I -X GET http://localhost:8820/static/interviews/en/2014-12.oleg-gubar.htm
 $ curl -I -X GET http://localhost:8820/static/interviews/2014-12.oleg-gubar.en.txt
 $ curl -I -X GET http://localhost:8820/static/timeline/2013-11/21-en.txt
 ```
