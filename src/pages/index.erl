@@ -25,25 +25,26 @@ update_file([D,A,L]) ->
     Language = wf:atom([L]),
     X=string:tokens(D,"/"),
     Date = lists:last(X),
-
     JSON = lists:concat(["json/",L,"/",Date,".",A,".json"]),
     HTML = lists:concat(["static/interviews/",L,"/",Date,".",A,".htm"]),
     Text = lists:concat(["static/interviews/",Date,".",A,".",L,".txt"]),
 
-    io:format("JSON: ~p~n",[JSON]),
-    io:format("HTML: ~p~n",[HTML]),
-    io:format("Text: ~p~n",[Text]),
-
     {ok,Bin} = file:read_file(hd(X)++"/"++Text),
-    Article = article:generate(A,Date,Language),
-    Render = wf:render(Article),
+    Render = wf:render(#dtl{} = article:generate(A,Date,Language)),
 
     file:write_file(lists:concat([hd(X),"/",HTML]),Render),
     file:write_file(lists:concat([hd(X),"/",JSON]),
          iolist_to_binary(
          n2o_json:encode(
-         interview:to_json(#interview{id=string:join([Date,A,L],"."),date=Date,text=Bin,author=A})))),
+         interview:to_json(
+                   #interview{id=string:join([Date,A,L],"."),
+                              date=Date,
+                              text=Bin,
+                              author=A})))),
 
+    io:format("JSON: ~p~n",[JSON]),
+    io:format("HTML: ~p~n",[HTML]),
+    io:format("Text: ~p~n",[Text]),
     io:format("HTM updated: ~p~n",[lists:concat([hd(X),"/",HTML])]),
     article_link({lists:last(X),A,Language,HTML}).
 

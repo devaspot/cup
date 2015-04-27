@@ -10,18 +10,17 @@ main() ->
    generate(Author,Date,wf:atom([Language])).
 
 generate(Author,Date,Language) ->
-    %io:format("Article Generate: ~p~n",[{Author,Date,Language}]),
     [Name,Surname] = string:tokens(Author,"-"),
     {_,#user{name=FullName,city=City,profession=Profession,photo=Photo}} 
       = uu_people:lookup({Author,Language}),
 
     {ok,Body} = file:read_file(lists:concat(["priv/static/interviews/",Date,".",Author,".",Language,".txt"])),
-    JSON = lists:concat(["/json/",Language,"/",Date,".",Author,".json"]),
+    JSONLink = lists:concat(["/json/",Language,"/",Date,".",Author,".json"]),
     #dtl{file=article,
          app=uu,
          bindings=[{body,markdown:conv_utf8(binary_to_list(Body))},
                    {date,Date},
-                   {json,wf:render(#link{body=JSON,href=JSON})},
+                   {json,wf:render(#link{body=JSONLink,href=JSONLink})},
                    {from,FullName},
                    {to,Profession},
                    {image,image(Author,Date)}]}.

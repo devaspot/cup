@@ -7,7 +7,7 @@ languages() -> [en,ua,ru].
 
 % Active File System Update
 
-%active(["deps"|_]) -> ok;
+active(["deps",_,"priv"|_]) -> ok;
 active(File) ->
     Last   = lists:last(File),
     Tokens = string:tokens(Last,"."),
@@ -22,8 +22,7 @@ active(File) ->
                    FileName = string:join(File,"/"),
                    wf:info(?MODULE,"Active Timeline: ~p~n",[FileName]),
                    active:otp(File);
-         {_,_} ->  wf:info(?MODULE,"Active Ignore: ~p~n",[File]),
-                   active:otp(File) end.
+         {_,_} ->  active:otp(File) end.
 
 % ls - list interviews
 % timeline(ua) -- show timeline event in UA locale
