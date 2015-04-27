@@ -12,10 +12,10 @@ Features
 * Active Reloading
 * Built-in Web Server
 
-You could keep static JSON files and dynamic REST
+You can keep static JSON files and dynamic REST
 endpoint (which is able to add/remove interviews)
-booth at the same time or you can you inly one of them.
-Same with static HTML and dynamic DTL page generation.
+booth at the same time or you can use only one of them.
+Same with static HTML and dynamic DTL page generations.
 
 Prerequisites
 -------------
